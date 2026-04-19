@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import '../App.css';
-
-const API_BASE_URL = 'http://localhost:5000/api';
+import { getApiBaseUrl } from '../lib/apiBase.js';
 
 function SignupPage({ onNavigateLogin, onSignupSuccess }) {
   const [name, setName] = useState('');
@@ -21,7 +20,7 @@ function SignupPage({ onNavigateLogin, onSignupSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/users`, {
+      const response = await fetch(`${getApiBaseUrl()}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

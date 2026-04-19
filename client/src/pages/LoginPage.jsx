@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '../App.css';
 import MainHeader from '../components/main/navbar.jsx';
 import Footer from '../components/main/Footer.jsx';
+import { getApiBaseUrl } from '../lib/apiBase.js';
 
 function LoginPage({
   onNavigateSignup,
@@ -35,7 +36,7 @@ function LoginPage({
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${getApiBaseUrl()}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmedEmail, password }),
@@ -58,7 +59,7 @@ function LoginPage({
 
     setForgotMessage('');
     try {
-      const res = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const res = await fetch(`${getApiBaseUrl()}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: targetEmail }),
