@@ -1,0 +1,12 @@
+{
+  "name": "cont-mall",
+  "private": true,
+  "description": "Monorepo root — Heroku runs API from /server",
+  "scripts": {
+    "postinstall": "npm ci --prefix server",
+    "start": "npm start --prefix server"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
