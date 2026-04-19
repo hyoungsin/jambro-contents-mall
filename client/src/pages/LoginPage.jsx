@@ -41,7 +41,14 @@ function LoginPage({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmedEmail, password }),
       });
-      const data = await res.json().catch(() => ({}));
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error(
+          '서버 응답을 불러오지 못했습니다. Vercel 배포 후 API 주소(vercel.json 프록시)를 확인해 주세요.',
+        );
+      }
       if (!res.ok) throw new Error(data?.error || '로그인에 실패했습니다.');
 
       onLoginSuccess?.({ token: data.token, user: data.user });
@@ -64,7 +71,14 @@ function LoginPage({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: targetEmail }),
       });
-      const data = await res.json().catch(() => ({}));
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error(
+          '서버 응답을 불러오지 못했습니다. API 프록시·백엔드 주소를 확인해 주세요.',
+        );
+      }
       if (!res.ok) throw new Error(data?.error || '요청에 실패했습니다.');
       setForgotMessage(data?.message || '요청이 완료되었습니다.');
     } catch (err) {
