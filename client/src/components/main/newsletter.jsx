@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-const API_BASE = 'http://localhost:5000/api';
+import { API_BASE } from '../../lib/apiBase.js';
 
 export const NEWSLETTER_CATEGORIES = [
   {

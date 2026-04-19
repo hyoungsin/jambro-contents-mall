@@ -1,15 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '../App.css';
+import { API_BASE } from '../lib/apiBase.js';
 import { loadIamport } from '../lib/loadIamport.js';
-
-function resolveApiBase() {
-  const raw = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
-  if (raw) return raw.endsWith('/api') ? raw : `${raw}/api`;
-  if (import.meta.env.DEV) return '/api';
-  return 'http://localhost:5000/api';
-}
-
-const API_BASE = resolveApiBase();
 
 /** 포트원 관리자 콘솔의 가맹점 식별코드 — 필요 시 `client/.env`에 VITE_IAMPORT_MERCHANT_CODE 로 덮어씀 */
 const IAMPORT_MERCHANT_CODE = import.meta.env.VITE_IAMPORT_MERCHANT_CODE || 'imp52872386';

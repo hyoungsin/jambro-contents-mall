@@ -261,7 +261,7 @@ MongoDB를 클라우드에서 쉽게 운영 가능
   - admin page에서 주문관리 가능한 하부 모듈을 생성함 
   - admin 권한은 모든 고객의 주문을 볼수 있어야 함
   
-7. 배포 
+7. DB 배포 
   7-0.배포순서 정리 (mono-repsoitory기준 -하나의 repository 안에 client/server구성)
     1) 데이터베이스
     2) 백엔드-server (heroku)
@@ -276,20 +276,21 @@ MongoDB를 클라우드에서 쉽게 운영 가능
     . mongodump.exe, mongorestore.exe 다운로드 후 설치 
     . .\mongorestore.exe --uri="mongodb+srv://사용자:비밀번호@클러스터주소/     jambro-contents-mall" --drop "D:\mongo-backup\jambro-contents-mall"
 
-  7-2.Github배포 (mono-repository기준)
-  - git init (git을 초기화하기)
+8.Github배포 (mono-repository기준)
+  - git init (git을 초기화하기,최초1번 only)
   - git add . (git안의 모든 파일을 복사하기)
   - git commit -m "first commit" (git version 기록)
   - git branch -M main (git의 저장위치를 main으로)
   - git remote add origin https://github.com/hyoungsin/jambro-contents-mall.git
-      (git local 과 git website/ssh 와 연결하기)
+      (git local 과 git website/ssh 와 연결하기,최초1번 only)
   - git push -u origin main (git website에 최종등록하기)
 
-  7-3.Backend배포(Heroku)
+9.Backend배포(Heroku)
   - heroku > create new app > jambro-contents-mall-backend
   - github로 연결 (CLI방식은 heroku extension을 설치해야 사용가능)
   - Setting > Config-Vars
     . NODE_ENV : production
+    . PROJECT_PATH : server
     . IAMPORT_API_KEY
     . IAMPORT_API_SECRET
     . JWT_SECRET
@@ -297,10 +298,20 @@ MongoDB를 클라우드에서 쉽게 운영 가능
     . cloudinaryCloudName
     . cloudinaryUploadPreset
     . SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS / SMTP_FROM
+  - Setting > Builpack > node.js 설치 (기본 개발언어 설정)
+  - Deploy Branch > View (api결과 확인)
 
-
-
-
+10.Frontend배포(Vercel)
+    - Add new > Project
+    - Github Repository연결
+    - Root Directory 설정 (client)
+    - Framework preeset: Vite선택 (개발언어)
+    - Build command : npm run build(시작명령어)
+    - Output directory : dist 
+    - Setting > Environment Variables 추가
+      .VITE_API_URL = https://jambro-contents-mall-backend-47af0c50c525.herokuapp.com/api
+       (heroku배포 테스트 한 주소 마지막에 /api를 추가) 
+    - deploy 
 
 
 
@@ -310,11 +321,12 @@ MongoDB를 클라우드에서 쉽게 운영 가능
 
 <바이브코딩>
 ---------------------------------------------------------------------------------------------------------------
+<client,server구조화 - 모노레포지터리>
 1-1. client와 server로 폴더를 구성해줘
 @jambro-contents-mall/server 이 폴더안에 node.js, express,mongodb로 조합으로 프로젝트 시작할수 있도록 세팅해줘 
 @jambro-contents-mall/client client에서는 react로 프로젝트 시작할수 있도록 vite로 세팅해주세요 
 
-
+<전체 아키텍쳐구성>
 2-1. 나는 쇼핑몰웹사이트를 만들려고한다.여기에 맞는 데이터베이스를 설계해줘 (GPT)
 2-2. 서버에서 User 스키마를 만들어주세요, 상세 정보는 다음과 같습니다. 만들때 time stamp기능도 함께 만들어주세요 
  - 필수정보 확정 : email, 이름, 비밀번호, user type (customer default & admin), address (user당 1개, 필수아님)
@@ -326,21 +338,19 @@ MongoDB를 클라우드에서 쉽게 운영 가능
     function App() {
     return (<></>)}
     export default App
-
 2-6. @App.jsx에(빈화면) 첨부한 이미지를 참조하여 여기에서 회원가입 페이지를 만들어줘 회원가입 버튼을 누르면 회원가입페이지로 이동하게 해줘. 회원가입 페이지의폼은 @userController.js 참조해
  - 이름과성은 한번에 입력할수 있도록 수정해줘
  - 비밀번호 확인할수 있도록 해줘 
  - @jambro-contents-mall/client/src/App.jsx pagees에서 화면별로로 코드가 관리되도록 최적화하여 정리해주세요
-
  2-7. @jambro-contents-mall/client/src/pages/SignupPage.jsx @jambro-contents-mall/server/src/controllers/usersController.js @jambro-contents-mall/server/src/routes/users.js @jambro-contents-mall/server/src/models/User.js 회원가입을 하면 
  서버에 user data를 저장하는 로직을 만들어줘 user type은 customer 를 default로 해주세요 
-
 - local server를 켜주세요: node index.js  (http://localhost:5000)
 - MongoDB에 들어가시 저장여부 확인하고 user type수정한다 (customer > admin) 
 - User 비밀번호를 MongoDB에 저장할때 암호화(bcrypt 해시 적용) 해주세요(확인 : F12 > 네트워크 > 헤더 > 페이로드드)
 - nodemon을 서버에 설치해줘 (앞으로 MongoDB Server를 껐다 키지 않아도 되고 코드 수정시 알아서 변경사항 update됨)
 
 
+<상세화면 구성>
 3-1-1. 로그인 기능 개발하기 위해 어떤 것이 필요한지 알려줘
 3-1-2. @jambro-contents-mall/server/src/controllers  @jambro-contents-mall/server/src/models @jambro-contents-mall/server/src/routes user관련 정보 참조하여 로그인 라우터를 만들어줘 
 3-1-3. @cont-mall/server/src/controllers/authController.js const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret_change_me'; 이 의미를 알려주고 Secret Key는 .env에서 관리하도록 해주세요 (nodemon은 .env는 미인지 영역 --> server재실행)
@@ -369,40 +379,51 @@ MongoDB를 클라우드에서 쉽게 운영 가능
 3-4-6. @server/src/routes/courses.js @client/src/components/main/courses.jsx 강의 컨텐츠를 보여줄때 max3개씩까지만 보여주는 페이지네이션을 적용해주세요
 
 
-
+<장바구니 연계>
 4-1. models.결재.png 참조하여  장바구니 스키마를 만들어줘 
 4-2. routes, Cart.js 장바구니 CRUD 로직 짜주세요
 4-3. @client/src/components/main/navbar.jsx 첨부 @client/assets/장바구니.png navbar에 장바구니와 my account로 이동하는 메뉴를 첨부 참조하여 작성해주세요 my account에는 내학습,혜택,보관함,로그아웃으로만 반영해줘 (참고로 장바구니를 보관함으로 반영하여 주세요)
 4-4. @client/src/components/main/courses.jsx 코스를 선택하면 첨부 이미지와 같은 페이지로 이동하여 장바구니 담기 또는 결제로 연동될수 있도록 해주세요
 4-5. @client/assets/결제하기.png @server/src/models 수강신청을 위한 결제하기  스키마, @server/src/routes @server/src/controllers CRUD 작업해주세요
 
+<주문연계>
 5-1. @cont-mall/server @cont-mall/server/src/models/CourseOrder.js <script src="https://cdn.iamport.kr/v1/iamport.js"></script> IMP.request_pay
 IMP.init을 이용하여 포트원 결제모듈을 세팅해주세요
 고객사 식별코드 : imp52872386
-
 5-2. @cont-mall/server/src/models/CourseOrder.js IMP.request.py를 활요하여 주문을 하면 결재가 진행되도록 연동해주세요 (5-1 실패시시)
-
 5-3. 결재는 되었지만만@cont-mall/server/src/routes/courseOrders.js @cont-mall/server/src/models/CourseOrder.js @cont-mall/server/src/controllers/courseOrdersController.js 존재하지 않는 결재정보라고 합니다.
-
 5-4. @cont-mall/server/src/controllers/courseOrdersController.js 주문은 한강좌를 여러번 주문할수 없도록 해주세요 
-
 5-5. @cont-mall/client/src/pages/MyLearningPage.jsx @cont-mall/client/src/pages/CheckoutPage.jsx 결제가 완료 되면 결제 성공 축하 메세지와 함께 내학습 페이지로 가도록 해주세요
 그리고 이미 주문에 성공한 강의는 중복해서 신청할수 없으니까 장바구니에 보이지 않도록 해주세요
-
 5-6. @cont-mall/client/src/components/main/navbar.jsx 혜택은 "구매/혜택"으로 변경해 주고 첨부 이미지 참조하여 스키마 및 CRUD Navbar와 연결된 @cont-mall/server/src/models/CourseOrder.js @cont-mall/server/src/routes/users.js @cont-mall/server/src/models/User.js @cont-mall/server/src/models/CourseOrder.js @cont-mall/server/src/controllers/usersController.js @cont-mall/server/src/controllers/courseOrdersController.js 하부페이지를 생성해주세요 
 
+<Admin주문관리>
 6-1. @cont-mall/client/src/pages/AdminDashboardPage.jsx 대시보드 화면 강의관리 하단에 주문관리화면을 생성해주세요
 이번주 주문건수, 금액 (전주대비 포함), 이번달 주문건수,금액(전월대비 포함), 전체누적주문건수,누적금액를 최상단에 표기 
 그래프는 월별 매출금액 추이를 표시해주세요 
 (현재는 매출금액이 없으니까 이번달포함 과거 12개월 보이도록 그래프를 그려주고 일단dummy금액으로 표기해주세요, 추후 실제 매출금액과 연동 udpate예정)
 인기강의 항목을 그래프 우측에 표시해주고 누적주문금액으로 표기해주세요@cont-mall/server/src/controllers/courseOrdersController.js @cont-mall/server/src/models/CourseOrder.js @cont-mall/server/src/models/CouponCampaign.js @cont-mall/server/src/models/Gift.js @cont-mall/server/src/models/UserCoupon.js  주문목록은 페이지네이션으로 첨부 이미지 참조하여 구현해주세요 
 
+<DB배포-Mongodb atlas>
 7-1. \@cont-mall/server/index.js MONGODB_ATLAS URL을 MongoDB주소로 사용하게 설정해주세요 만약 연결이 안될경우 MongoDB_URI를 사용하도록 설정해주세요
 7-2. local 의 jambro 에서 jambro-contents-mall db를 cloud인 jambro-atlas의 jambro-contents-mall로 복사하기 위해서 가장 추천하는 방법으로 가이드해주세요
-7-3. @cont-mall 이 프로젝트를 배포하려고 하는데 배포시 불필요한 파일들이 있을지 알려줘
-7-4. server 시작을 위한 procfile생성해줘줘
-7-5. server gitignore생성해줘
-7-6. client용 vercel.json (라우팅기준설정) 생성해줘
-7-7. client용 gitignore생성해줘
-7-8. HEROKU 배포하다가 이런 에러가 발생,해결해줘
- . Setting > Builpack > node.js 설치 
+
+<Repository배포-Github>
+8-1. @cont-mall 이 프로젝트를 배포하려고 하는데 배포시 불필요한 파일들이 있을지 알려줘
+8-2. server 시작을 위한 procfile생성해줘줘
+8-3. server gitignore생성해줘
+8-4. client용 vercel.json (라우팅기준설정) 생성해줘
+8-5. client용 gitignore생성해줘
+
+<Backend배포-Heroku>
+9-1. HEROKU 배포하다가 이런 에러가 발생,해결해줘
+9-2. 배포가 잘되었는지 확인 (하단링크)
+
+<Frontend배포-Vercel>
+10-1. Add new > Project > Github Repository연결 > Root Directory (client).Framework 
+10-2. preeset: Vite선택 (개발언어)
+10-3. Build command : npm run build(시작명령어)
+10-4. Setting > Environment Variables 추가 (Heroku Repository연결)
+  .VITE_API_URL = https://jambro-contents-mall-backend-47af0c50c525.herokuapp.com/api
+    (heroku배포 테스트 한 주소 마지막에 /api를 추가) 
+10-5. deploy 

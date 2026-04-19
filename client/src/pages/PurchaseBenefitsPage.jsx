@@ -1,14 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import '../App.css';
-
-function resolveApiBase() {
-  const raw = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
-  if (raw) return raw.endsWith('/api') ? raw : `${raw}/api`;
-  if (import.meta.env.DEV) return '/api';
-  return 'http://localhost:5000/api';
-}
-
-const API_BASE = resolveApiBase();
+import { API_BASE } from '../lib/apiBase.js';
 
 function authHeaders() {
   const t = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');

@@ -8,16 +8,7 @@
  * - 모든 API는 Bearer 토큰 + 관리자 권한 필요
  */
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
-/** Vite 프록시 또는 절대 URL로 API 베이스(`/api`) 결정 */
-function resolveApiBase() {
-  const raw = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
-  if (raw) return raw.endsWith('/api') ? raw : `${raw}/api`;
-  if (import.meta.env.DEV) return '/api';
-  return 'http://localhost:5000/api';
-}
-
-const API_BASE = resolveApiBase();
+import { API_BASE } from '../../lib/apiBase.js';
 
 /** 로컬/세션 스토리지의 JWT를 Authorization 헤더에 붙임 */
 function authHeaders() {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import '../App.css';
 
-const API_BASE = 'http://localhost:5000/api';
+import { API_BASE } from '../lib/apiBase.js';
 
 function authHeadersJson() {
   const t = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
