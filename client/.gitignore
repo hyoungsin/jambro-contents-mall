@@ -1,0 +1,47 @@
+# vercel.json : client 라우팅방식설정
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules/
+
+# Vite build output
+dist/
+dist-ssr/
+
+# Environment (keep .env.example committed)
+.env
+.env.*
+!.env.example
+
+# Local overrides
+*.local
+
+# Vercel CLI link state (optional)
+.vercel/
+
+# Test / coverage (if added later)
+coverage/
+*.lcov
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript (if introduced later)
+*.tsbuildinfo

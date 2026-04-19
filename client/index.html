@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050b0a" />
+    <title>client</title>
+    <!-- 포트원 v1: head에서 선로드(번들보다 먼저 실행되도록). 미로드 시 Checkout에서 동적 로드 -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
