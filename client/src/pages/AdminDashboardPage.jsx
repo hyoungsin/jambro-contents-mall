@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import '../App.css';
-import { API_BASE } from '../lib/apiBase.js';
 import logo from '../assets/logo.png';
 import AdminDashboardView from '../components/admin/AdminDashboardView.jsx';
 import NewsletterAdminList from '../components/admin/NewsletterAdminList.jsx';
@@ -252,7 +251,7 @@ function ContentManager({ kind }) {
     setLoading(true);
     setError('');
     try {
-      const url = `${API_BASE}/${basePath}?limit=50&skip=0`;
+      const url = `http://localhost:5000/api/${basePath}?limit=50&skip=0`;
       const res = await fetch(url);
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || '목록 조회에 실패했습니다.');
@@ -289,7 +288,7 @@ function ContentManager({ kind }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API_BASE}/${basePath}/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/${basePath}/${id}`, {
         method: 'DELETE',
       });
       const data = await res.json().catch(() => ({}));
@@ -584,8 +583,8 @@ function ContentEditor({
 
       const isEdit = Boolean(editingItem?._id);
       const url = isEdit
-        ? `${API_BASE}/${basePath}/${editingItem._id}`
-        : `${API_BASE}/${basePath}/register`;
+        ? `http://localhost:5000/api/${basePath}/${editingItem._id}`
+        : `http://localhost:5000/api/${basePath}/register`;
 
       const method = isEdit ? 'PUT' : 'POST';
 

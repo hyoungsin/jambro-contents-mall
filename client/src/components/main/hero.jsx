@@ -4,7 +4,7 @@ import {
   getCategoryByBackendCategory,
 } from './newsletter.jsx';
 
-import { API_BASE } from '../../lib/apiBase.js';
+const API_BASE = 'http://localhost:5000/api';
 
 function IconSparkle() {
   return (

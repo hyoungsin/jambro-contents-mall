@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import '../App.css';
-import { API_BASE } from '../lib/apiBase.js';
 import MainHeader from '../components/main/navbar.jsx';
 import Footer from '../components/main/Footer.jsx';
 
@@ -36,17 +35,12 @@ function LoginPage({
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmedEmail, password }),
       });
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        throw new Error('서버 응답을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.');
-      }
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || '로그인에 실패했습니다.');
 
       onLoginSuccess?.({ token: data.token, user: data.user });
@@ -64,19 +58,12 @@ function LoginPage({
 
     setForgotMessage('');
     try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password`, {
+      const res = await fetch('http://localhost:5000/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: targetEmail }),
       });
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        throw new Error(
-          '서버 응답을 불러오지 못했습니다. API 프록시·백엔드 주소를 확인해 주세요.',
-        );
-      }
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || '요청에 실패했습니다.');
       setForgotMessage(data?.message || '요청이 완료되었습니다.');
     } catch (err) {

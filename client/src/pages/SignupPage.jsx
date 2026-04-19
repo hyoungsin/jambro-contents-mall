@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import '../App.css';
-import { API_BASE } from '../lib/apiBase.js';
+
+const API_BASE_URL = 'http://localhost:5000/api';
 
 function SignupPage({ onNavigateLogin, onSignupSuccess }) {
   const [name, setName] = useState('');
@@ -20,7 +21,7 @@ function SignupPage({ onNavigateLogin, onSignupSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE}/users`, {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -30,12 +31,7 @@ function SignupPage({ onNavigateLogin, onSignupSuccess }) {
         }),
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        throw new Error('서버 응답을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.');
-      }
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         const message =

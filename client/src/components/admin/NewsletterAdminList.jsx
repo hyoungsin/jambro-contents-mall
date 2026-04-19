@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { API_BASE } from '../../lib/apiBase.js';
 
 const NEWS_DETAIL_CATEGORIES = ['AI최신트렌드', 'AI모델성능', 'AI활용사례'];
 
@@ -23,7 +22,7 @@ function NewsletterAdminList({
     setLoading(true);
     setError('');
     try {
-      const url = `${API_BASE}/ai-trends?limit=50&skip=0`;
+      const url = `http://localhost:5000/api/ai-trends?limit=50&skip=0`;
       const res = await fetch(url);
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || '목록 조회에 실패했습니다.');
@@ -52,7 +51,7 @@ function NewsletterAdminList({
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API_BASE}/ai-trends/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/ai-trends/${id}`, {
         method: 'DELETE',
       });
       const data = await res.json().catch(() => ({}));
