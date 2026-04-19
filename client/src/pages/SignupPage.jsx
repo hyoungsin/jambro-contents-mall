@@ -34,9 +34,7 @@ function SignupPage({ onNavigateLogin, onSignupSuccess }) {
       try {
         data = await response.json();
       } catch {
-        throw new Error(
-          '서버 응답을 불러오지 못했습니다. Vercel에 API 프록시(vercel.json)가 배포됐는지 확인해 주세요.',
-        );
+        throw new Error('서버 응답을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.');
       }
 
       if (!response.ok) {

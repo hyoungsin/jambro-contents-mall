@@ -45,9 +45,7 @@ function LoginPage({
       try {
         data = await res.json();
       } catch {
-        throw new Error(
-          '서버 응답을 불러오지 못했습니다. Vercel 배포 후 API 주소(vercel.json 프록시)를 확인해 주세요.',
-        );
+        throw new Error('서버 응답을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.');
       }
       if (!res.ok) throw new Error(data?.error || '로그인에 실패했습니다.');
 
