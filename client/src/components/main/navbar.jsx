@@ -20,6 +20,7 @@ function MainHeader({
   onCloseNewsletter,
   isNewsletterOpen = false,
   showUserActions = true,
+  onNavigateMain,
   onNavigateLogin,
   onNavigateSignup,
   onNavigateLocker,
@@ -142,7 +143,10 @@ function MainHeader({
           type="button"
           className="main-logo"
           aria-label="맨 위로, 메인 화면"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            if (typeof onNavigateMain === 'function') onNavigateMain();
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         >
           <img className="main-logo-img" src={logo} alt="Jambro" />
         </button>

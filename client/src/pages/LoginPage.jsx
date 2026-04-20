@@ -5,6 +5,7 @@ import Footer from '../components/main/Footer.jsx';
 import { getApiBaseUrl } from '../lib/apiBase.js';
 
 function LoginPage({
+  onNavigateMain,
   onNavigateSignup,
   onLoginSuccess,
   postSignupMessage,
@@ -75,7 +76,7 @@ function LoginPage({
   return (
     <div className="main-bg">
       <div className="main-shell login-shell">
-        <MainHeader showUserActions={false} />
+        <MainHeader showUserActions={false} onNavigateMain={onNavigateMain} />
 
         <div className="login-content">
           <div className="auth-card login-card">

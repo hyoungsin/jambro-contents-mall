@@ -58,6 +58,7 @@ function App() {
   if (view === 'signup') {
     return (
       <SignupPage
+        onNavigateMain={() => setView('main')}
         onNavigateLogin={() => setView('login')}
         onSignupSuccess={() => {
           setPostSignupMessage('회원가입을 축하합니다.');
@@ -203,6 +204,7 @@ function App() {
 
   return (
     <LoginPage
+      onNavigateMain={() => setView('main')}
       postSignupMessage={postSignupMessage}
       onClearPostSignupMessage={() => setPostSignupMessage('')}
       onNavigateSignup={() => {
