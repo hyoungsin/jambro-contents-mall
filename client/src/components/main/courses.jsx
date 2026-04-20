@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getApiBaseUrl } from '../../lib/apiBase.js';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = getApiBaseUrl();
 
 const COURSE_GROUPS = [
   { id: 'all', label: '전체' },

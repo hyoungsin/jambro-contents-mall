@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getApiBaseUrl } from '../../lib/apiBase.js';
+
+const API_BASE = getApiBaseUrl();
 
 function statusLabel(status) {
   if (status === 'published') return '최종본';
@@ -20,7 +23,7 @@ function CourseAdminList({
     setLoading(true);
     setError('');
     try {
-      const url = `http://localhost:5000/api/courses?limit=50&skip=0`;
+      const url = `${API_BASE}/courses?limit=50&skip=0`;
       const res = await fetch(url);
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || '목록 조회에 실패했습니다.');
@@ -53,7 +56,7 @@ function CourseAdminList({
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://localhost:5000/api/courses/${id}`, {
+      const res = await fetch(`${API_BASE}/courses/${id}`, {
         method: 'DELETE',
       });
       const data = await res.json().catch(() => ({}));

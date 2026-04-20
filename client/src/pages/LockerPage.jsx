@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '../App.css';
 
-const API_BASE = 'http://localhost:5000/api';
+import { getApiBaseUrl } from '../lib/apiBase.js';
+
+const API_BASE = getApiBaseUrl();
 
 function authHeaders() {
   const t = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');

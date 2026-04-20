@@ -3,8 +3,9 @@ import {
   NEWSLETTER_CATEGORIES,
   getCategoryByBackendCategory,
 } from './newsletter.jsx';
+import { getApiBaseUrl } from '../../lib/apiBase.js';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = getApiBaseUrl();
 
 function IconSparkle() {
   return (

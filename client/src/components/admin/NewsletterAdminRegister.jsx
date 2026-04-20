@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useCloudinaryUploadWidget } from '../../hooks/useCloudinaryUploadWidget.js';
+import { getApiBaseUrl } from '../../lib/apiBase.js';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = getApiBaseUrl();
 
 const DETAIL_CATEGORIES = ['AI최신트렌드', 'AI모델성능', 'AI활용사례'];
 
