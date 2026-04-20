@@ -1984,14 +1984,16 @@ button.btn-back-to-main.btn-back-to-main--compact .btn-back-to-main__icon {
   max-width: min(100%, 920px);
   margin: 0 0 18px;
   padding: 0;
-  /* 한 줄 유지: 뷰포트에 맞춰 자동으로 살짝 축소 */
+  /* 뷰포트에 맞춰 자동으로 살짝 축소 */
   font-size: clamp(8px, 2.35vw + 5.5px, 15px);
   font-weight: 800;
   line-height: 1.45;
   letter-spacing: -0.02em;
   word-spacing: -0.04em;
   color: #f1f5f9;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.92),
     0 2px 14px rgba(0, 0, 0, 0.55);
@@ -2988,6 +2990,128 @@ button.admin-brand {
   padding: 12px;
 }
 
+/* Admin: Courses list responsive (table ↔ cards) */
+.admin-course-cards {
+  display: none;
+}
+
+.admin-course-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.admin-course-card + .admin-course-card {
+  margin-top: 10px;
+}
+
+.admin-course-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-course-card-title-wrap {
+  min-width: 0;
+}
+
+.admin-course-card-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: rgba(241, 245, 249, 0.98);
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.admin-course-card-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.95);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.admin-course-card-sku {
+  font-family: ui-monospace, monospace;
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.admin-course-card-dot {
+  opacity: 0.75;
+}
+
+.admin-course-card-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(229, 231, 235, 0.86);
+}
+
+.admin-course-card-badge.is-published {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.16);
+  color: #dcfce7;
+}
+
+.admin-course-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  margin: 12px 0 0;
+}
+
+.admin-course-card-meta-row {
+  min-width: 0;
+}
+
+.admin-course-card-meta dt {
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(148, 163, 184, 0.95);
+  margin: 0 0 2px;
+}
+
+.admin-course-card-meta dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(241, 245, 249, 0.95);
+  min-width: 0;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.admin-course-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.admin-course-card-action-btn {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-course-card-action-danger {
+  background: rgba(239, 68, 68, 0.16);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
 .admin-panel-head h2 {
   margin: 0 0 10px;
   font-size: 15px;
@@ -3362,6 +3486,34 @@ button.admin-brand {
     grid-template-columns: 1fr;
   }
 
+  /* Admin panels: 좁은 화면에서 헤더 컨트롤 줄바꿈/스택 */
+  .admin-panel-head {
+    flex-wrap: wrap;
+  }
+
+  .admin-panel-head .field-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Admin tables: 가로 스크롤 UX 개선 */
+  .admin-panel div[style*='overflowX'] {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-panel table {
+    min-width: 860px;
+  }
+
+  /* Courses list: 모바일에서는 테이블 대신 카드 리스트 */
+  .admin-course-table-wrap {
+    display: none;
+  }
+
+  .admin-course-cards {
+    display: block;
+  }
+
   .main-shell {
     max-width: 100%;
     padding: 12px max(12px, env(safe-area-inset-right)) 18px
@@ -3578,8 +3730,36 @@ button.admin-brand {
 
   .hero-desc {
     max-width: 100%;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
     font-size: clamp(8px, 2.6vw + 4px, 15px);
+  }
+
+  /* Admin panels: 헤더 컨트롤이 모바일에서 잘리지 않게 스택 처리 */
+  .admin-panel-head {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .admin-panel-head > div {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .admin-panel-head .field-input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Admin tables: 모바일에서 가로 스크롤이 자연스럽게 */
+  .admin-panel table {
+    min-width: 860px;
+  }
+
+  .admin-panel div[style*='overflowX'] {
+    -webkit-overflow-scrolling: touch;
   }
 
   .hero-subscribe-success {

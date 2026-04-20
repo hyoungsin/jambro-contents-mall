@@ -9,6 +9,7 @@ import Footer from '../components/main/Footer.jsx';
 function MainPage({
   user,
   onLogout,
+  onNavigateLogin,
   onNavigateSignup,
   onNavigateAdmin,
   onNavigateLocker,
@@ -26,6 +27,8 @@ function MainPage({
           user={user}
           onLogout={onLogout}
           onAdminClick={onNavigateAdmin}
+          onNavigateLogin={onNavigateLogin}
+          onNavigateSignup={onNavigateSignup}
           onNavigateLocker={onNavigateLocker}
           onNavigateMyLearning={onNavigateMyLearning}
           onNavigatePurchaseBenefits={onNavigatePurchaseBenefits}

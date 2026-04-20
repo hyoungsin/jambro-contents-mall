@@ -81,10 +81,6 @@ function HeroSection({ user }) {
           <span className="hero-title-remainder">를 가장 먼저 만나보세요</span>
         </h1>
 
-        <p className="hero-desc">
-          매주 최신 AI Trend와 인사이트 그리고 적용을 통해 함께 성장해보세요.
-        </p>
-
         <div className="hero-email-row">
           <input
             className="hero-email-input"
@@ -100,7 +96,7 @@ function HeroSection({ user }) {
             className="hero-subscribe-btn"
             onClick={handleSubscribe}
           >
-            Subscribe <span className="hero-arrow">→</span>
+            뉴스레터구독 <span className="hero-arrow">→</span>
           </button>
         </div>
 

@@ -8,6 +8,13 @@ function statusLabel(status) {
   return '초안';
 }
 
+function formatYmd(d) {
+  if (!d) return '';
+  const x = new Date(d);
+  if (Number.isNaN(x.getTime())) return '';
+  return x.toISOString().slice(0, 10);
+}
+
 function CourseAdminList({
   refreshNonce,
   onOpenCreate,
@@ -116,7 +123,7 @@ function CourseAdminList({
           </div>
         )}
 
-        <div style={{ overflowX: 'auto', marginTop: 12 }}>
+        <div className="admin-course-table-wrap" style={{ overflowX: 'auto', marginTop: 12 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ color: 'rgba(229,231,235,0.7)', fontSize: 12 }}>
@@ -154,9 +161,7 @@ function CourseAdminList({
                     ? 'rgba(34, 197, 94, 0.35)'
                     : 'rgba(255, 255, 255, 0.12)';
 
-                const createdAt = it?.createdAt
-                  ? new Date(it.createdAt).toISOString().slice(0, 10)
-                  : '';
+                const createdAt = formatYmd(it?.createdAt);
 
                 return (
                   <tr
@@ -239,6 +244,75 @@ function CourseAdminList({
               })}
             </tbody>
           </table>
+        </div>
+
+        <div className="admin-course-cards" style={{ marginTop: 12 }}>
+          {filtered.length === 0 && !loading && (
+            <div className="helper-text" style={{ color: 'rgba(229,231,235,0.6)' }}>
+              데이터가 없습니다.
+            </div>
+          )}
+          {filtered.map((it) => {
+            const isPublished = it?.status === 'published';
+            const createdAt = formatYmd(it?.createdAt);
+            return (
+              <article key={String(it?._id || it?.id || it?.sku)} className="admin-course-card">
+                <div className="admin-course-card-top">
+                  <div className="admin-course-card-title-wrap">
+                    <div className="admin-course-card-title">{it?.title || ''}</div>
+                    <div className="admin-course-card-sub">
+                      <span className="admin-course-card-sku">{it?.sku || '—'}</span>
+                      <span className="admin-course-card-dot" aria-hidden>
+                        ·
+                      </span>
+                      <span className="admin-course-card-author">{it?.author?.name || '관리자'}</span>
+                    </div>
+                  </div>
+                  <span className={`admin-course-card-badge ${isPublished ? 'is-published' : 'is-draft'}`}>
+                    {statusLabel(it?.status)}
+                  </span>
+                </div>
+
+                <dl className="admin-course-card-meta">
+                  <div className="admin-course-card-meta-row">
+                    <dt>카테고리</dt>
+                    <dd>{it?.category || '—'}</dd>
+                  </div>
+                  <div className="admin-course-card-meta-row">
+                    <dt>가격</dt>
+                    <dd>{(it?.price ?? 0).toLocaleString()}원</dd>
+                  </div>
+                  <div className="admin-course-card-meta-row">
+                    <dt>조회수</dt>
+                    <dd>{it?.views ?? 0}</dd>
+                  </div>
+                  <div className="admin-course-card-meta-row">
+                    <dt>작성일</dt>
+                    <dd>{createdAt || '—'}</dd>
+                  </div>
+                </dl>
+
+                <div className="admin-course-card-actions">
+                  <button
+                    type="button"
+                    className="admin-btn muted admin-course-card-action-btn"
+                    onClick={() => onOpenEdit?.(it)}
+                    disabled={loading}
+                  >
+                    ✏️ 수정
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-btn admin-course-card-action-btn admin-course-card-action-danger"
+                    onClick={() => handleDelete(String(it?._id))}
+                    disabled={loading}
+                  >
+                    🗑️ 삭제
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </article>
     </section>

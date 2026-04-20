@@ -10,7 +10,7 @@ import MyLearningPage from './pages/MyLearningPage.jsx';
 import PurchaseBenefitsPage from './pages/PurchaseBenefitsPage.jsx';
 
 function App() {
-  const [view, setView] = useState('login'); // 'login' | 'signup' | 'main' | 'admin' | 'locker' | 'courseDetail' | 'checkout' | 'learning' | 'purchaseBenefits'
+  const [view, setView] = useState('main'); // 'login' | 'signup' | 'main' | 'admin' | 'locker' | 'courseDetail' | 'checkout' | 'learning' | 'purchaseBenefits'
   /** 회원가입 직후 로그인 화면에 한 번 표시할 메시지 */
   const [postSignupMessage, setPostSignupMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
@@ -52,7 +52,7 @@ function App() {
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('authUser');
     setCurrentUser(null);
-    setView('login');
+    setView('main');
   };
 
   if (view === 'signup') {
@@ -72,6 +72,10 @@ function App() {
       <MainPage
         user={currentUser}
         onLogout={handleLogout}
+        onNavigateLogin={() => {
+          setPostSignupMessage('');
+          setView('login');
+        }}
         onNavigateSignup={() => setView('signup')}
         onNavigateAdmin={() => setView('admin')}
         onNavigateLocker={() => setView('locker')}

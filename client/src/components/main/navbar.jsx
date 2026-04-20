@@ -20,6 +20,8 @@ function MainHeader({
   onCloseNewsletter,
   isNewsletterOpen = false,
   showUserActions = true,
+  onNavigateLogin,
+  onNavigateSignup,
   onNavigateLocker,
   onNavigateMyLearning,
   onNavigatePurchaseBenefits,
@@ -310,69 +312,82 @@ function MainHeader({
         <div className="main-right" ref={userBarRef}>
           <div className="main-user">{displayName}</div>
           <div className="main-actions main-actions--toolbar">
-            <div className="main-account-wrap">
-              <button
-                type="button"
-                className="main-account-trigger"
-                aria-expanded={isAccountOpen}
-                aria-haspopup="menu"
-                aria-controls="main-account-menu"
-                onClick={toggleAccountMenu}
-              >
-                My account
-                <span className={isAccountOpen ? 'nav-caret nav-caret-open' : 'nav-caret'} aria-hidden>
-                  ▾
-                </span>
-              </button>
-
-              {isAccountOpen && (
-                <div
-                  id="main-account-menu"
-                  className="main-account-dropdown"
-                  role="menu"
-                  aria-label="계정 메뉴"
-                >
-                  <button type="button" className="main-account-item" role="menuitem" onClick={goToMyLearning}>
-                    <span className="main-account-item-icon main-account-item-icon--learn" aria-hidden>
-                      🎓
-                    </span>
-                    <span>내학습</span>
-                  </button>
-                  <button type="button" className="main-account-item" role="menuitem" onClick={goToLocker}>
-                    <span className="main-account-item-icon main-account-item-icon--cart" aria-hidden>
-                      🛒
-                    </span>
-                    <span>장바구니</span>
-                  </button>
-                  <button type="button" className="main-account-item" role="menuitem" onClick={goToPurchaseBenefits}>
-                    <span className="main-account-item-icon main-account-item-icon--gift" aria-hidden>
-                      🎁
-                    </span>
-                    <span>구매/혜택</span>
-                  </button>
-                  <div className="main-account-sep" role="presentation" />
+            {user ? (
+              <>
+                <div className="main-account-wrap">
                   <button
                     type="button"
-                    className="main-account-item main-account-item--danger"
-                    role="menuitem"
-                    onClick={() => {
-                      closeAccountMenu();
-                      onLogout?.();
-                    }}
+                    className="main-account-trigger"
+                    aria-expanded={isAccountOpen}
+                    aria-haspopup="menu"
+                    aria-controls="main-account-menu"
+                    onClick={toggleAccountMenu}
                   >
-                    <span className="main-account-item-icon" aria-hidden>
-                      ↪
+                    My account
+                    <span className={isAccountOpen ? 'nav-caret nav-caret-open' : 'nav-caret'} aria-hidden>
+                      ▾
                     </span>
-                    <span>로그아웃</span>
                   </button>
-                </div>
-              )}
-            </div>
 
-            {isAdmin && (
-              <button type="button" className="main-admin-btn" onClick={onAdminClick}>
-                Admin
-              </button>
+                  {isAccountOpen && (
+                    <div
+                      id="main-account-menu"
+                      className="main-account-dropdown"
+                      role="menu"
+                      aria-label="계정 메뉴"
+                    >
+                      <button type="button" className="main-account-item" role="menuitem" onClick={goToMyLearning}>
+                        <span className="main-account-item-icon main-account-item-icon--learn" aria-hidden>
+                          🎓
+                        </span>
+                        <span>내학습</span>
+                      </button>
+                      <button type="button" className="main-account-item" role="menuitem" onClick={goToLocker}>
+                        <span className="main-account-item-icon main-account-item-icon--cart" aria-hidden>
+                          🛒
+                        </span>
+                        <span>장바구니</span>
+                      </button>
+                      <button type="button" className="main-account-item" role="menuitem" onClick={goToPurchaseBenefits}>
+                        <span className="main-account-item-icon main-account-item-icon--gift" aria-hidden>
+                          🎁
+                        </span>
+                        <span>구매/혜택</span>
+                      </button>
+                      <div className="main-account-sep" role="presentation" />
+                      <button
+                        type="button"
+                        className="main-account-item main-account-item--danger"
+                        role="menuitem"
+                        onClick={() => {
+                          closeAccountMenu();
+                          onLogout?.();
+                        }}
+                      >
+                        <span className="main-account-item-icon" aria-hidden>
+                          ↪
+                        </span>
+                        <span>로그아웃</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {isAdmin && (
+                  <button type="button" className="main-admin-btn" onClick={onAdminClick}>
+                    Admin
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <button type="button" className="main-ghost-btn" onClick={onNavigateLogin}>
+                  로그인
+                </button>
+                <button type="button" className="main-subscribe-btn" onClick={onNavigateSignup}>
+                  회원가입
+                </button>
+              </>
             )}
           </div>
         </div>
